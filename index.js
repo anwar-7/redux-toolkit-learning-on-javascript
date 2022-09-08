@@ -1,93 +1,46 @@
-// state - count:0
-// action -> (Object -> type, payload) -> increment, decrement, reset
-// reducer
-// store -> getState(), subscribe(), dispatch()
-
+/* example of payload */
 const { createStore } = require('redux');
 
-// CONSTANTS
-const INCREMENT = 'INCREMENT';
-const INCREMENT_COUNT_BY_VALUE = 'INCREMENT_COUNT_BY_VALUE';
-const DECREMENT = 'DECREMENT';
-const RESET = 'RESET';
+// constance
+const ADD_USER = 'ADD_USER';
 
-// STATE
-const initialState = {
-  count: 0,
+// state
+const usersStats = {
+  users: ['Anwar'],
+  count: 1,
 };
 
-// ACTION
-const incrementCounterAction = () => {
+// action
+const addUser = (user) => {
   return {
-    type: INCREMENT,
+    type: ADD_USER,
+    payload: user,
   };
 };
 
-const decrementCounterAction = () => {
-  return {
-    type: DECREMENT,
-  };
-};
-
-const resetCounterAction = () => {
-  return {
-    type: RESET,
-  };
-};
-
-const incrementCountByValue = (value) => {
-  return {
-    type: INCREMENT_COUNT_BY_VALUE,
-    payload: value,
-  };
-};
-
-// REDUCER
-const counterReducer = (state = initialState, action) => {
+// reducer
+const addUserReducer = (state = usersStats, action) => {
   //
   switch (action.type) {
-    case INCREMENT:
+    case ADD_USER:
       return {
-        ...state,
+        users: [...state.users, action.payload],
         count: state.count + 1,
       };
-    //
-    case DECREMENT:
-      return {
-        ...state,
-        count: state.count - 1,
-      };
-    //
-    case RESET:
-      return {
-        ...state,
-        count: 0,
-      };
-    //
-    case INCREMENT_COUNT_BY_VALUE:
-      return {
-        ...state,
-        count: state.count + action.payload,
-      };
+
     default:
       state;
   }
 };
 
-// STORE
-const store = createStore(counterReducer);
+// store
+const store = createStore(addUserReducer);
 
 store.subscribe(() => {
   console.log(store.getState());
 });
 
-// DISPATCH ACTION
-store.dispatch(incrementCounterAction());
-store.dispatch(incrementCounterAction());
-store.dispatch(resetCounterAction());
-store.dispatch(incrementCounterAction());
-store.dispatch(incrementCounterAction());
-store.dispatch(decrementCounterAction());
-store.dispatch(decrementCounterAction());
-store.dispatch(incrementCounterAction());
-store.dispatch(incrementCountByValue(10));
+// dispatcher
+store.dispatch(addUser('Korim'));
+store.dispatch(addUser('Dipu'));
+store.dispatch(addUser('Maraj'));
